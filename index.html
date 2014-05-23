@@ -1,1 +1,72 @@
+<!doctype html>
+<html>
+<head>
+  <title>Example</title>
 
+  <script type="text/javascript" src="lib/jquery/jquery.min.js"></script>
+  <script type="text/javascript" src="lib/underscore/underscore-min.js"></script>
+  <script type="text/javascript" src="lib/backbone/backbone-min.js"></script>
+  <script type="text/javascript" src="lib/backbone-relational/backbone-relational.min.js"></script>
+</head>
+
+<body>
+  <h2>Before:</h2>
+  <div id="before">
+    <ul>
+      <li>1</li>
+      <li>2</li>
+    </ul>
+    <span>Hello!</span>
+    <p>P text</p>
+    <footer>Footer content</footer>
+  </div>
+
+  <hr>
+
+  <h2>After:</h2>
+  <div id="after">
+    <ul>
+      <li>1</li>
+      <li>3</li>
+      <li>4</li>
+    </ul>
+    <span>Bye!</span>
+    <div>Div text</div>
+  </div>
+
+  <hr>
+
+  <script type="text/javascript">
+    var response = {
+      took: 1,
+      hits: {
+        hits: [
+          { name: 'ES' },
+          { name: 'JS' }
+        ]
+      }
+    }
+    var Result = Backbone.RelationalModel.extend({});
+    var Results = Backbone.Collection.extend({});
+
+    var Search = Backbone.RelationalModel.extend({
+      relations: [{
+        type: Backbone.HasMany,
+        key: 'antmarks',
+        keySource: 'real_hits',
+        relatedModel: 'Result',
+        collectionType: 'Results'
+      }]
+    });
+
+    var search = new Search(response);
+
+    console.log(search);
+  </script>
+
+  <h3>Legend:</h3>
+  <p style="background-color: rgb(255, 128, 128)">Removed element</p>
+  <p style="background-color: rgb(128, 255, 128)">Added element</p>
+  <p style="background-color: rgb(255, 230, 100)">Changed element</p>
+</body>
+</html>
